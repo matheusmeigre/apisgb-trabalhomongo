@@ -1,0 +1,273 @@
+### API de Gerenciamento de Biblioteca - Testes
+### Servidor: http://localhost:3000
+
+### =======================
+### ENDPOINT RAIZ
+### =======================
+
+### Verificar status da API
+GET http://localhost:3000
+Content-Type: application/json
+
+### =======================
+### USUÁRIOS
+### =======================
+
+### Cadastrar usuário 1
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "name": "João Silva",
+  "birthDate": "1990-05-15",
+  "sex": "Masculino",
+  "address": "Rua das Flores, 123, São Paulo - SP"
+}
+
+### Cadastrar usuário 2
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "name": "Maria Santos",
+  "birthDate": "1985-12-08",
+  "sex": "Feminino",
+  "address": "Avenida Central, 456, Rio de Janeiro - RJ"
+}
+
+### Tentar cadastrar usuário duplicado (deve falhar)
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "name": "João Silva",
+  "birthDate": "1992-03-10",
+  "sex": "Masculino",
+  "address": "Outra rua, 789, Belo Horizonte - MG"
+}
+
+### Listar todos os usuários
+GET http://localhost:3000/users
+Content-Type: application/json
+
+### =======================
+### AUTORES
+### =======================
+
+### Cadastrar autor 1
+POST http://localhost:3000/authors
+Content-Type: application/json
+
+{
+  "name": "Machado de Assis",
+  "birthDate": "1839-06-21",
+  "sex": "Masculino",
+  "writingGenre": "Fiction"
+}
+
+### Cadastrar autor 2
+POST http://localhost:3000/authors
+Content-Type: application/json
+
+{
+  "name": "Clarice Lispector",
+  "birthDate": "1920-12-10",
+  "sex": "Feminino",
+  "writingGenre": "Novel"
+}
+
+### Cadastrar autor 3
+POST http://localhost:3000/authors
+Content-Type: application/json
+
+{
+  "name": "Agatha Christie",
+  "birthDate": "1890-09-15",
+  "sex": "Feminino",
+  "writingGenre": "Mystery"
+}
+
+### Tentar cadastrar autor com gênero inválido (deve falhar)
+POST http://localhost:3000/authors
+Content-Type: application/json
+
+{
+  "name": "Autor Teste",
+  "birthDate": "1980-01-01",
+  "sex": "Masculino",
+  "writingGenre": "Romance"
+}
+
+### Tentar cadastrar autor duplicado (deve falhar)
+POST http://localhost:3000/authors
+Content-Type: application/json
+
+{
+  "name": "Machado de Assis",
+  "birthDate": "1839-06-21",
+  "sex": "Masculino",
+  "writingGenre": "Poetry"
+}
+
+### Listar todos os autores
+GET http://localhost:3000/authors
+Content-Type: application/json
+
+### =======================
+### LIVROS
+### =======================
+
+### Cadastrar livro 1 (substitua AUTHOR_ID_1 pelo ID real do Machado de Assis)
+POST http://localhost:3000/books
+Content-Type: application/json
+
+{
+  "title": "Dom Casmurro",
+  "synopsis": "Romance que narra a história de Bentinho e Capitu, explorando temas como ciúme e desconfiança.",
+  "year": 1899,
+  "author": "AUTHOR_ID_1"
+}
+
+### Cadastrar livro 2 (substitua AUTHOR_ID_2 pelo ID real da Clarice Lispector)
+POST http://localhost:3000/books
+Content-Type: application/json
+
+{
+  "title": "A Hora da Estrela",
+  "synopsis": "A história de Macabéa, uma jovem nordestina que vive no Rio de Janeiro.",
+  "year": 1977,
+  "author": "AUTHOR_ID_2"
+}
+
+### Cadastrar livro 3 (substitua AUTHOR_ID_3 pelo ID real da Agatha Christie)
+POST http://localhost:3000/books
+Content-Type: application/json
+
+{
+  "title": "Assassinato no Expresso do Oriente",
+  "synopsis": "Hercule Poirot investiga um assassinato em um trem preso na neve.",
+  "year": 1934,
+  "author": "AUTHOR_ID_3"
+}
+
+### Tentar cadastrar livro com autor inexistente (deve falhar)
+POST http://localhost:3000/books
+Content-Type: application/json
+
+{
+  "title": "Livro Teste",
+  "synopsis": "Sinopse do livro teste",
+  "year": 2023,
+  "author": "507f1f77bcf86cd799439011"
+}
+
+### Listar todos os livros
+GET http://localhost:3000/books
+Content-Type: application/json
+
+### =======================
+### EMPRÉSTIMOS
+### =======================
+
+### Realizar empréstimo 1 (substitua pelos IDs reais)
+POST http://localhost:3000/loans
+Content-Type: application/json
+
+{
+  "bookId": "BOOK_ID_1",
+  "userId": "USER_ID_1"
+}
+
+### Realizar empréstimo 2 (substitua pelos IDs reais)
+POST http://localhost:3000/loans
+Content-Type: application/json
+
+{
+  "bookId": "BOOK_ID_2",
+  "userId": "USER_ID_2"
+}
+
+### Tentar emprestar livro já emprestado (deve falhar)
+POST http://localhost:3000/loans
+Content-Type: application/json
+
+{
+  "bookId": "BOOK_ID_1",
+  "userId": "USER_ID_2"
+}
+
+### Tentar empréstimo com usuário inexistente (deve falhar)
+POST http://localhost:3000/loans
+Content-Type: application/json
+
+{
+  "bookId": "BOOK_ID_3",
+  "userId": "507f1f77bcf86cd799439011"
+}
+
+### Tentar empréstimo com livro inexistente (deve falhar)
+POST http://localhost:3000/loans
+Content-Type: application/json
+
+{
+  "bookId": "507f1f77bcf86cd799439011",
+  "userId": "USER_ID_1"
+}
+
+### =======================
+### CASOS DE TESTE ADICIONAIS
+### =======================
+
+### Teste com campos obrigatórios faltando - Usuário
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "name": "Nome Teste",
+  "birthDate": "1990-01-01"
+}
+
+### Teste com campos obrigatórios faltando - Autor
+POST http://localhost:3000/authors
+Content-Type: application/json
+
+{
+  "name": "Autor Teste",
+  "birthDate": "1980-01-01"
+}
+
+### Teste com campos obrigatórios faltando - Livro
+POST http://localhost:3000/books
+Content-Type: application/json
+
+{
+  "title": "Livro Teste",
+  "year": 2023
+}
+
+### Teste com campos obrigatórios faltando - Empréstimo
+POST http://localhost:3000/loans
+Content-Type: application/json
+
+{
+  "bookId": "BOOK_ID_1"
+}
+
+### =======================
+### INSTRUÇÕES DE USO
+### =======================
+
+# 1. Certifique-se que o servidor está rodando: npm run dev
+# 2. Execute os testes na ordem apresentada
+# 3. Substitua os IDs marcados com AUTHOR_ID, BOOK_ID e USER_ID pelos IDs reais
+# 4. Para obter os IDs reais, execute primeiro os GETs correspondentes
+# 5. Para limpar o banco: npm run collections
+
+### Para obter IDs dos autores após cadastro:
+GET http://localhost:3000/authors
+
+### Para obter IDs dos usuários após cadastro:
+GET http://localhost:3000/users
+
+### Para obter IDs dos livros após cadastro:
+GET http://localhost:3000/books
