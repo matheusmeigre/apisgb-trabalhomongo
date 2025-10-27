@@ -5,16 +5,14 @@ const database = require("./config/database");
 // Registrar rotas
 async function start() {
   try {
-    // Conectar ao banco de dados
     await database.connect();
 
-    // Registrar rotas
     await fastify.register(require("./routes/users"));
     await fastify.register(require("./routes/authors"));
     await fastify.register(require("./routes/books"));
     await fastify.register(require("./routes/loans"));
 
-    // Rota raiz
+    // rota para health check
     fastify.get("/", async (request, reply) => {
       return {
         message: "API de Gerenciamento de Biblioteca",
@@ -28,29 +26,28 @@ async function start() {
       };
     });
 
-    // Iniciar o servidor
     const port = process.env.PORT || 3000;
     const host = process.env.HOST || "0.0.0.0";
 
     await fastify.listen({ port, host });
 
-    console.log(`🚀 Servidor rodando em http://localhost:${port}`);
+    console.log(`Servidor rodando em http://localhost:${port}`);
   } catch (error) {
-    console.error("❌ Erro ao iniciar o servidor:", error);
+    console.error("Erro ao iniciar o servidor:", error);
     process.exit(1);
   }
 }
 
-// Manipular encerramento gracioso
+// Tratamento para encerrar o servidor
 process.on("SIGINT", async () => {
-  console.log("\n🔄 Encerrando servidor...");
+  console.log("\nEncerrando servidor...");
   try {
     await fastify.close();
     await database.disconnect();
-    console.log("✅ Servidor encerrado com sucesso");
+    console.log("Servidor encerrado com sucesso");
     process.exit(0);
   } catch (error) {
-    console.error("❌ Erro ao encerrar servidor:", error);
+    console.error("Erro ao encerrar servidor:", error);
     process.exit(1);
   }
 });

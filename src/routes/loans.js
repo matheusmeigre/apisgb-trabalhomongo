@@ -8,14 +8,13 @@ async function loanRoutes(fastify, options) {
     try {
       const { bookId, userId } = request.body;
 
-      // Validações básicas
       if (!bookId || !userId) {
         return reply.status(400).send({
           error: "Os campos bookId e userId são obrigatórios",
         });
       }
 
-      // Verificar se o usuário existe
+      // Usuario existente/inexistente
       const user = await User.findById(userId);
       if (!user) {
         return reply.status(404).send({
@@ -23,24 +22,21 @@ async function loanRoutes(fastify, options) {
         });
       }
 
-      // Verificar se o livro existe
+      // Livro existente/inexistente
       const book = await Book.findById(bookId).populate("author", "name");
       if (!book) {
         return reply.status(404).send({
           error: "Livro não encontrado",
         });
       }
-
-      // Verificar disponibilidade do livro
+      //Regras de negócio para verificar disponibilidade do livro
       const currentDate = new Date();
 
-      // Regra 1: Verificar se o livro está disponível (isAvailable = true)
       if (book.isAvailable) {
         // Livro disponível - pode realizar o empréstimo
         return await processLoan(book, user, currentDate, reply);
       }
 
-      // Regra 2: Se isAvailable = false, verificar se expectedReturnDate é anterior à data atual
       if (!book.isAvailable && book.expectedReturnDate) {
         const expectedReturn = new Date(book.expectedReturnDate);
 
@@ -50,7 +46,6 @@ async function loanRoutes(fastify, options) {
         }
       }
 
-      // Regra 4: Livro não está disponível
       return reply.status(409).send({
         error: "Livro não está disponível para empréstimo",
         details: {
@@ -70,7 +65,7 @@ async function loanRoutes(fastify, options) {
   // Função auxiliar para processar o empréstimo
   async function processLoan(book, user, currentDate, reply) {
     try {
-      // Calcular data de devolução (3 dias a partir da data atual)
+      // Data de devolução = 3 dias a partir da data atual
       const returnDate = new Date(currentDate);
       returnDate.setDate(returnDate.getDate() + 3);
 

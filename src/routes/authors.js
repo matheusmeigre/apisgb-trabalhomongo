@@ -1,12 +1,10 @@
 const Author = require("../models/Author");
 
 async function authorRoutes(fastify, options) {
-  // POST /authors - Cadastrar Autor
   fastify.post("/authors", async (request, reply) => {
     try {
       const { name, birthDate, sex, writingGenre } = request.body;
 
-      // Validações básicas
       if (!name || !birthDate || !sex || !writingGenre) {
         return reply.status(400).send({
           error:
@@ -31,7 +29,6 @@ async function authorRoutes(fastify, options) {
         });
       }
 
-      // Verificar se já existe um autor com o mesmo nome
       const existingAuthor = await Author.findOne({ name });
       if (existingAuthor) {
         return reply.status(409).send({
@@ -39,7 +36,7 @@ async function authorRoutes(fastify, options) {
         });
       }
 
-      // Criar novo autor
+      // Novo autor
       const author = new Author({
         name,
         birthDate: new Date(birthDate),

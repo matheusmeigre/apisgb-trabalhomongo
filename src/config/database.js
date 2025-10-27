@@ -15,17 +15,17 @@ class Database {
         useUnifiedTopology: true,
       });
 
-      console.log("✅ Conectado ao MongoDB com sucesso!");
+      console.log("Conectado ao MongoDB com sucesso!");
 
       mongoose.connection.on("error", (error) => {
-        console.error("❌ Erro na conexão com MongoDB:", error);
+        console.error("Erro na conexão com MongoDB:", error);
       });
 
       mongoose.connection.on("disconnected", () => {
-        console.log("🔌 Desconectado do MongoDB");
+        console.log("Desconectado do MongoDB");
       });
     } catch (error) {
-      console.error("❌ Erro ao conectar com MongoDB:", error);
+      console.error("Erro ao conectar com MongoDB:", error);
       process.exit(1);
     }
   }
@@ -33,9 +33,9 @@ class Database {
   async disconnect() {
     try {
       await mongoose.disconnect();
-      console.log("🔌 Desconectado do MongoDB");
+      console.log("Desconectado do MongoDB");
     } catch (error) {
-      console.error("❌ Erro ao desconectar do MongoDB:", error);
+      console.error("Erro ao desconectar do MongoDB:", error);
     }
   }
 

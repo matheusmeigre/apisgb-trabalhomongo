@@ -18,10 +18,10 @@ POST http://localhost:3000/users
 Content-Type: application/json
 
 {
-  "name": "João Silva",
-  "birthDate": "1990-05-15",
+  "name": "Phablo Ribeiro",
+  "birthDate": "2002-08-14",
   "sex": "Masculino",
-  "address": "Rua das Flores, 123, São Paulo - SP"
+  "address": "Rua Jota Lacerda, 80, Cataguases - MG"
 }
 
 ### Cadastrar usuário 2
@@ -29,10 +29,10 @@ POST http://localhost:3000/users
 Content-Type: application/json
 
 {
-  "name": "Maria Santos",
-  "birthDate": "1985-12-08",
+  "name": "Karina Alves",
+  "birthDate": "2006-11-04",
   "sex": "Feminino",
-  "address": "Avenida Central, 456, Rio de Janeiro - RJ"
+  "address": "Rua Antônio Martins Mendes, 287, Cataguases - MG"
 }
 
 ### Tentar cadastrar usuário duplicado (deve falhar)
@@ -40,7 +40,7 @@ POST http://localhost:3000/users
 Content-Type: application/json
 
 {
-  "name": "João Silva",
+  "name": "Phablo Ribeiro",
   "birthDate": "1992-03-10",
   "sex": "Masculino",
   "address": "Outra rua, 789, Belo Horizonte - MG"
@@ -125,7 +125,7 @@ Content-Type: application/json
   "title": "Dom Casmurro",
   "synopsis": "Romance que narra a história de Bentinho e Capitu, explorando temas como ciúme e desconfiança.",
   "year": 1899,
-  "author": "AUTHOR_ID_1"
+  "author": "68ff6cc500549f2833d18fa4"
 }
 
 ### Cadastrar livro 2 (substitua AUTHOR_ID_2 pelo ID real da Clarice Lispector)
@@ -136,7 +136,7 @@ Content-Type: application/json
   "title": "A Hora da Estrela",
   "synopsis": "A história de Macabéa, uma jovem nordestina que vive no Rio de Janeiro.",
   "year": 1977,
-  "author": "AUTHOR_ID_2"
+  "author": "68ff6ccc00549f2833d18fa7"
 }
 
 ### Cadastrar livro 3 (substitua AUTHOR_ID_3 pelo ID real da Agatha Christie)
@@ -147,7 +147,7 @@ Content-Type: application/json
   "title": "Assassinato no Expresso do Oriente",
   "synopsis": "Hercule Poirot investiga um assassinato em um trem preso na neve.",
   "year": 1934,
-  "author": "AUTHOR_ID_3"
+  "author": "68ff6cd800549f2833d18faa"
 }
 
 ### Tentar cadastrar livro com autor inexistente (deve falhar)
@@ -174,8 +174,8 @@ POST http://localhost:3000/loans
 Content-Type: application/json
 
 {
-  "bookId": "BOOK_ID_1",
-  "userId": "USER_ID_1"
+  "bookId": "68ff6d8100549f2833d18fb0",
+  "userId": "68ff6c7b00549f2833d18f9c"
 }
 
 ### Realizar empréstimo 2 (substitua pelos IDs reais)
@@ -183,8 +183,8 @@ POST http://localhost:3000/loans
 Content-Type: application/json
 
 {
-  "bookId": "BOOK_ID_2",
-  "userId": "USER_ID_2"
+  "bookId": "68ff6d8600549f2833d18fb5",
+  "userId": "68ff6c9a00549f2833d18f9f"
 }
 
 ### Tentar emprestar livro já emprestado (deve falhar)
@@ -192,8 +192,8 @@ POST http://localhost:3000/loans
 Content-Type: application/json
 
 {
-  "bookId": "BOOK_ID_1",
-  "userId": "USER_ID_2"
+  "bookId": "68ff6d8100549f2833d18fb0",
+  "userId": "68ff6c9a00549f2833d18f9f"
 }
 
 ### Tentar empréstimo com usuário inexistente (deve falhar)
@@ -201,7 +201,7 @@ POST http://localhost:3000/loans
 Content-Type: application/json
 
 {
-  "bookId": "BOOK_ID_3",
+  "bookId": "68ff6d8600549f2833d18fb5",
   "userId": "507f1f77bcf86cd799439011"
 }
 
@@ -211,11 +211,11 @@ Content-Type: application/json
 
 {
   "bookId": "507f1f77bcf86cd799439011",
-  "userId": "USER_ID_1"
+  "userId": "68ff6c7b00549f2833d18f9c"
 }
 
 ### =======================
-### CASOS DE TESTE ADICIONAIS
+### TESTES ADICIONAIS
 ### =======================
 
 ### Teste com campos obrigatórios faltando - Usuário
@@ -250,24 +250,14 @@ POST http://localhost:3000/loans
 Content-Type: application/json
 
 {
-  "bookId": "BOOK_ID_1"
+  "bookId": "68ff6d8100549f2833d18fb0"
 }
 
-### =======================
-### INSTRUÇÕES DE USO
-### =======================
-
-# 1. Certifique-se que o servidor está rodando: npm run dev
-# 2. Execute os testes na ordem apresentada
-# 3. Substitua os IDs marcados com AUTHOR_ID, BOOK_ID e USER_ID pelos IDs reais
-# 4. Para obter os IDs reais, execute primeiro os GETs correspondentes
-# 5. Para limpar o banco: npm run collections
-
-### Para obter IDs dos autores após cadastro:
+### Obter IDs dos autores após cadastro:
 GET http://localhost:3000/authors
 
-### Para obter IDs dos usuários após cadastro:
+### Obter IDs dos usuários após cadastro:
 GET http://localhost:3000/users
 
-### Para obter IDs dos livros após cadastro:
+### Obter IDs dos livros após cadastro:
 GET http://localhost:3000/books
